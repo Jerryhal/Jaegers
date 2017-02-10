@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+//Tätä luokkaa käytetään toistaseksi vain virtuaali nappuloiden toimintaan
+
 public class ButtonController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
 	private bool pressed; 
