@@ -31,17 +31,16 @@ public class Player : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D collision) { //Kun pelaaja osuu collideriin tapahtuu seuraava: 
 		//collision muuttuja on collideri mihin pelaaja koskee 
-		Debug.Log(collision); 
 
-		if (collision.gameObject.name == "Coin") { //collision.gameObject.name == "spriteen liitetyn _Kuvan_ nimi"
+		if (collision.gameObject.tag == "Coins") { 
 			collision.collider.gameObject.SetActive (false); //Kolikko katoaa pelimaailmasta
 			GameObject.Destroy (collision.collider.gameObject); //Kolikko katoaa unityn muistista
 			points++;
 
-		} else if (collision.gameObject.name == "Spikes") {
+		} else if (collision.gameObject.name == "Spikes") { //collision.gameObject.name == "spriten nimi"
 			health -= 35; //piikkien damage
 			if (health > 0) { //pelaaja ponnahtaa iskusta vain jos isku ei ole tappava
-				gameObject.transform.Translate (0, 300, 0); //pelaaja ponnahtaa ylös 
+				gameObject.transform.parent.Translate (0, 300, 0); //pelaaja ponnahtaa ylös 
 			}
 			Debug.Log("health: "+ health);
 			controls.SetJumpCap (false); //piikkien koskeminen lasektaan maassa käymiseksi,

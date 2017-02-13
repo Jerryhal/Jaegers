@@ -8,50 +8,43 @@ public class GameControl : MonoBehaviour {
 	GameObject patientPlayerObject; 
 	GameObject thiefPlayerObject; 
 	GameObject currentPlayerObject;
+	Collider2D sword;
 	ButtonController rightButton;
 	ButtonController leftButton;
-//	Vector3 patientPlayerLocation;
-//	Vector3 thiefPlayerLocation;
-//	Vector3 currentPlayerLocation; 
 	Text points;
 	Player patientPlayer;
 	Player currentPlayer;
 	Player thiefPlayer;
-	int jumpHeight; //Kaikki tälläset pelaajalle omaiset "statsit" sirretään mahdollisesti Player luokkaan myöhemmin
-	bool jumpCap;
+	int jumpHeight; //Kaikki tälläset pelaajalle omaiset "statsit" sirretään todennäköisesti Player luokkaan myöhemmin
 	int jumpProgress;
+	bool jumpCap;
 	Camera thiefCamera;
 	Camera patientCamera; 
 	Camera currentCamera;
-//	Vector3 offset;
 	Canvas gameOver;
 	Canvas pauseCanvas;
 	Text GameOverText;
-	GameObject sword;
 
 
 	// Use this for initialization
 	void Start () {
-		sword = GameObject.Find ("Sword");
+		
 		gameOver = GameObject.Find ("GameOverCanvas").GetComponent<Canvas> ();
 		pauseCanvas = GameObject.Find ("PauseCanvas").GetComponent<Canvas> ();
 		points = GameObject.Find ("PointsText").GetComponent<Text> ();
-		patientPlayerObject = GameObject.Find ("PatientPlayer"); 
-		thiefPlayerObject = GameObject.Find ("ThiefPlayer"); 
+		patientPlayerObject = GameObject.Find ("Patient"); 
+		thiefPlayerObject = GameObject.Find ("Thief"); 
 		patientPlayer = GameObject.Find("PatientPlayer").GetComponent<Player>();
 		thiefPlayer = GameObject.Find("ThiefPlayer").GetComponent<Player>();
 		thiefCamera = GameObject.Find("ThiefCamera").GetComponent<Camera>();
 		patientCamera = GameObject.Find("PatientCamera").GetComponent<Camera>();
+		sword = GameObject.Find ("Sword").GetComponent<Collider2D>();
 		currentPlayer = patientPlayer;
 		currentPlayerObject = patientPlayerObject;
 		currentCamera = patientCamera;
-//		patientPlayerLocation = patientPlayerObject.transform.position;
-//		thiefPlayerLocation = thiefPlayerObject.transform.position;
-//		currentPlayerLocation = patientPlayerLocation;
 		jumpCap = false;
 		pauseCanvas.enabled = false;
 		jumpHeight = 30; //Hypyn max korkeus
-		int jumpProgress = 0;
 //		rightButton = GameObject.Find ("RightButton").GetComponent<ButtonController>(); 
 //		leftButton = GameObject.Find ("LeftButton").GetComponent<ButtonController>(); Mahdollisia virtuaali nappeja varten
 
@@ -106,7 +99,11 @@ public class GameControl : MonoBehaviour {
 			} else if (Input.GetKeyDown (KeyCode.Tab)) {//Tab vaihtaa hahmoa 
 				SwitchPlayers ();
 
-			} else if (Input.GetKeyDown (KeyCode.Mouse0)) {
+			} else if (Input.GetKeyDown (KeyCode.Mouse0)) { //kun M1 painetaan niin miekka collideri aktivoituu 
+				sword.enabled = true; 
+
+			} else if (Input.GetKeyUp (KeyCode.Mouse0)) { //kun M1 nostetaan pohjasta miekka collideri deaktivoituu
+				sword.enabled = false;
 			}
 		}
 		if (Input.GetKeyDown (KeyCode.Escape)  && gameOver.enabled == false) { //Esc Pausee pelin 
@@ -118,26 +115,15 @@ public class GameControl : MonoBehaviour {
 				}
 		points.text = "Points: " + (thiefPlayer.GetPoints() + patientPlayer.GetPoints()); //Pitää näytöllä lukua kerätyistä kolikoista
 			}
-
-	void Jump() { //Hyppy
-		//Liikutetaan pelaajaa ylöspäin kunnes saavutetaan hypyn lakipiste, jolloin pelaaja lakkaa liikkumasta ylös.
-		currentPlayerObject.transform.Translate (0, 20, 0); //Hypyn "räjähtävyys"
-
-		currentPlayer.SetGrounded (false); //Pelaaja ei ole enää maassa 
-			jumpProgress++;
-		if (jumpProgress == jumpHeight) { //Hypyn lakipiste saavutettu
-				jumpCap = true; //Pelaaja ei voi hypätä uudelleen kunnes jumpCap == false
-				jumpProgress = 0; 
-			}
-		}
+		
 
 
 	public void SetJumpCap(bool b) { 
 		this.jumpCap = b;
 	}
 
-	public GameObject GetPlayer() {
-		return this.currentPlayerObject;
+	public Player GetPlayer() {
+		return this.currentPlayer;
 	}
 
 	void GameOver() {
@@ -155,6 +141,18 @@ public class GameControl : MonoBehaviour {
 			Time.timeScale = 0; //Pysäyttää peliajan
 			pauseCanvas.enabled = true; //Pause kanvas tulee esiin
 		}	
+	}
+
+	void Jump() { //Hyppy
+		//Liikutetaan pelaajaa ylöspäin kunnes saavutetaan hypyn lakipiste, jolloin pelaaja lakkaa liikkumasta ylös.
+		currentPlayerObject.transform.Translate (0, 20, 0); //Hypyn "räjähtävyys"
+
+		currentPlayer.SetGrounded (false); //Pelaaja ei ole enää maassa 
+		jumpProgress++;
+		if (jumpProgress == jumpHeight) { //Hypyn lakipiste saavutettu
+			jumpCap = true; //Pelaaja ei voi hypätä uudelleen kunnes jumpCap == false
+			jumpProgress = 0; 
+		}
 	}
 
 	void Flip() {
