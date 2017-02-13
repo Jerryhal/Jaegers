@@ -7,10 +7,10 @@ public class Player : MonoBehaviour {
 	int points;
 	GameControl controls;
 	GameObject coin; //Siirretään mahdollisesti GameItems (tai vast.) luokkaan
-	bool grounded;
-	bool freeze;
-	bool facing;
-	int health; 
+	bool grounded; //koskettaako pelaajan jalat maata, true = koskettaa
+	bool freeze; //ei käytössä vielä 
+	bool facing; //kummalle puolelle pelaaja katsoo, true = oikealle
+	int health; //pelaajan hp 
 
 
 	// Use this for initialization

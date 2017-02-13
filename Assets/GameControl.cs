@@ -10,7 +10,9 @@ public class GameControl : MonoBehaviour {
 	GameObject currentPlayerObject;
 	ButtonController rightButton;
 	ButtonController leftButton;
-	Vector3 patientPlayerLocation;
+//	Vector3 patientPlayerLocation;
+//	Vector3 thiefPlayerLocation;
+//	Vector3 currentPlayerLocation; 
 	Text points;
 	Player patientPlayer;
 	Player currentPlayer;
@@ -18,31 +20,38 @@ public class GameControl : MonoBehaviour {
 	int jumpHeight; //Kaikki tälläset pelaajalle omaiset "statsit" sirretään mahdollisesti Player luokkaan myöhemmin
 	bool jumpCap;
 	int jumpProgress;
-	Camera camera;
-	Vector3 offset;
+	Camera thiefCamera;
+	Camera patientCamera; 
+	Camera currentCamera;
+//	Vector3 offset;
 	Canvas gameOver;
 	Canvas pauseCanvas;
 	Text GameOverText;
+	GameObject sword;
 
 
 	// Use this for initialization
 	void Start () {
+		sword = GameObject.Find ("Sword");
 		gameOver = GameObject.Find ("GameOverCanvas").GetComponent<Canvas> ();
 		pauseCanvas = GameObject.Find ("PauseCanvas").GetComponent<Canvas> ();
 		points = GameObject.Find ("PointsText").GetComponent<Text> ();
 		patientPlayerObject = GameObject.Find ("PatientPlayer"); 
 		thiefPlayerObject = GameObject.Find ("ThiefPlayer"); 
-		patientPlayerLocation = patientPlayerObject.transform.position;
 		patientPlayer = GameObject.Find("PatientPlayer").GetComponent<Player>();
 		thiefPlayer = GameObject.Find("ThiefPlayer").GetComponent<Player>();
+		thiefCamera = GameObject.Find("ThiefCamera").GetComponent<Camera>();
+		patientCamera = GameObject.Find("PatientCamera").GetComponent<Camera>();
+		currentPlayer = patientPlayer;
+		currentPlayerObject = patientPlayerObject;
+		currentCamera = patientCamera;
+//		patientPlayerLocation = patientPlayerObject.transform.position;
+//		thiefPlayerLocation = thiefPlayerObject.transform.position;
+//		currentPlayerLocation = patientPlayerLocation;
 		jumpCap = false;
 		pauseCanvas.enabled = false;
 		jumpHeight = 30; //Hypyn max korkeus
 		int jumpProgress = 0;
-		camera = GameObject.Find ("Main Camera").GetComponent<Camera> ();
-		currentPlayer = patientPlayer;
-		currentPlayerObject = patientPlayerObject;
-		offset = camera.transform.position - currentPlayerObject.transform.position;
 //		rightButton = GameObject.Find ("RightButton").GetComponent<ButtonController>(); 
 //		leftButton = GameObject.Find ("LeftButton").GetComponent<ButtonController>(); Mahdollisia virtuaali nappeja varten
 
@@ -52,8 +61,6 @@ public class GameControl : MonoBehaviour {
 	// Update is called once per frame
 
 	void Update (){
-		
-		camera.transform.position = currentPlayerObject.transform.position + offset; //Kamera seuraa pelaajaa
 
 		//Input.GetKey (KeyCode.nappi) niin kauan kun nappia painetaan niin suoritetaan komentoa
 		//Input.GetKeyDown (KeyCode.nappi) kun nappia painetaan kerran niin suoritetaan komento
@@ -97,14 +104,9 @@ public class GameControl : MonoBehaviour {
 				}
 
 			} else if (Input.GetKeyDown (KeyCode.Tab)) {//Tab vaihtaa hahmoa 
-				if (currentPlayer == patientPlayer) {
-					currentPlayer = thiefPlayer;
-					currentPlayerObject = thiefPlayerObject;
-				} else {
-					currentPlayer = patientPlayer;
-					currentPlayerObject = patientPlayerObject;
-				}
+				SwitchPlayers ();
 
+			} else if (Input.GetKeyDown (KeyCode.Mouse0)) {
 			}
 		}
 		if (Input.GetKeyDown (KeyCode.Escape)  && gameOver.enabled == false) { //Esc Pausee pelin 
@@ -139,7 +141,7 @@ public class GameControl : MonoBehaviour {
 	}
 
 	void GameOver() {
-		Time.timeScale = 0; //Pausee pelin 
+		Time.timeScale = 0; //pysäyttää ajan 
 		gameOver.enabled = true; //Game over kanvas tulee esiin
 
 	}
@@ -147,7 +149,7 @@ public class GameControl : MonoBehaviour {
 	void Pause() {
 		if (pauseCanvas.enabled == true) {
 			Time.timeScale = 1; //Palauttaa peliajan normaaliksi
-			pauseCanvas.enabled = false; //Pause kanvas tulee esiin
+			pauseCanvas.enabled = false; //Pause kanvas menee pois 
 
 		} else if (pauseCanvas.enabled == false) {
 			Time.timeScale = 0; //Pysäyttää peliajan
@@ -158,11 +160,31 @@ public class GameControl : MonoBehaviour {
 	void Flip() {
 
 		if (currentPlayerObject == patientPlayerObject) { 
-			patientPlayerObject.transform.Translate (-200, 0, 0); //Tasaa flipin yhteydessä tapahtuvaa "nykäisyiä". Modeli kohtainen arvo.
+			patientPlayerObject.transform.Translate (-150, 0, 0); //Tasaa flipin yhteydessä tapahtuvaa "nykäisyiä". Modeli kohtainen arvo.
 		} else if (currentPlayerObject == thiefPlayerObject) {
-			thiefPlayerObject.transform.Translate (-1000, 0, 0);  //Tasaa flipin yhteydessä tapahtuvaa "nykäisyiä". Modeli kohtainen arvo.
+			thiefPlayerObject.transform.Translate (-400, 0, 0);  //Tasaa flipin yhteydessä tapahtuvaa "nykäisyiä". Modeli kohtainen arvo.
 		}
-		currentPlayerObject.transform.Rotate (0, 180, 0); //Modeli peilaantuu
+		currentPlayerObject.transform.Rotate (0, 180, 0); //PlayerObject kääntyy 180 astetta Y-akselilla eli peilaantuu.
+		currentCamera.transform.Rotate(0, -180, 0); //koska PlayeObject ja kaikki sille alistetut komponentit peilaantuu myös, pitää kamera asetta normaaliksi kääntämäälä se toiset 180 astetta.
+		currentCamera.transform.Translate (0, 0, -20); //Kun kamera pelitetään toista kertaa, pelimaailma jää sen "taakse". siksi sitä pitää tuoda takaisinpäin Z-akselilla.    
 		currentPlayer.SetFacing (!currentPlayer.Facing()); //player.Facing saa vastakkaisen arvon. 
+	}
+
+	void SwitchPlayers() {
+		
+		if (currentPlayer == patientPlayer) { //Jos nykyinen (current) pelihahmo on jo patient niin kaikki current referenssit vaihtuu thieffin referensseihin
+		thiefCamera.enabled = true; //Thieffin kamera käynnistyy
+		patientCamera.enabled = false; //patientin kamera sammuu
+		currentPlayer = thiefPlayer;
+		currentPlayerObject = thiefPlayerObject;
+		currentCamera = thiefCamera;
+
+		} else if (currentPlayer == thiefPlayer){ //Jos nykyinen (current) pelihahmo on jo thief niin kaikki current referenssit vaihtuu pateintin referensseihin
+		patientCamera.enabled = true; //patientin kamera käynnistyy
+		thiefCamera.enabled = false; //theiffin kamera sammuu
+		currentPlayer = patientPlayer;
+		currentPlayerObject = patientPlayerObject;
+		currentCamera = patientCamera;
+		}
 	}
 }
