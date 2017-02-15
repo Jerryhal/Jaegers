@@ -8,6 +8,7 @@ public class GameControl : MonoBehaviour {
 	GameObject patientPlayerObject; 
 	GameObject thiefPlayerObject; 
 	GameObject currentPlayerObject;
+	LevelManager levels;
 	Collider2D sword;
 	ButtonController rightButton;
 	ButtonController leftButton;
@@ -26,9 +27,10 @@ public class GameControl : MonoBehaviour {
 	Text GameOverText;
 
 
+
+
 	// Use this for initialization
 	void Start () {
-		
 		gameOver = GameObject.Find ("GameOverCanvas").GetComponent<Canvas> ();
 		pauseCanvas = GameObject.Find ("PauseCanvas").GetComponent<Canvas> ();
 		points = GameObject.Find ("PointsText").GetComponent<Text> ();
@@ -39,6 +41,7 @@ public class GameControl : MonoBehaviour {
 		thiefCamera = GameObject.Find("ThiefCamera").GetComponent<Camera>();
 		patientCamera = GameObject.Find("PatientCamera").GetComponent<Camera>();
 		sword = GameObject.Find ("Sword").GetComponent<Collider2D>();
+		levels = GameObject.Find ("Levels").GetComponent<LevelManager> ();
 		currentPlayer = patientPlayer;
 		currentPlayerObject = patientPlayerObject;
 		currentCamera = patientCamera;
@@ -112,7 +115,10 @@ public class GameControl : MonoBehaviour {
 
 		if (currentPlayer.GetHealth () <= 0) {
 			GameOver ();
-				}
+
+		} else if (thiefPlayer.GetGoal() == true && patientPlayer.GetGoal() == true) {
+			levels.ChangeLevel ();
+		}
 		points.text = "Points: " + (thiefPlayer.GetPoints() + patientPlayer.GetPoints()); //Pitää näytöllä lukua kerätyistä kolikoista
 			}
 		
@@ -184,5 +190,8 @@ public class GameControl : MonoBehaviour {
 		currentPlayerObject = patientPlayerObject;
 		currentCamera = patientCamera;
 		}
+	}
+
+	void ChangeLevel() {
 	}
 }

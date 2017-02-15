@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
 	bool freeze; //ei käytössä vielä 
 	bool facing; //kummalle puolelle pelaaja katsoo, true = oikealle
 	int health; //pelaajan hp 
+	bool goal;
 
 
 	// Use this for initialization
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour {
 		grounded = true;  
 		facing = true;
 		health = 100; 
+		goal = false;
 
 	}
 
@@ -37,7 +39,7 @@ public class Player : MonoBehaviour {
 			GameObject.Destroy (collision.collider.gameObject); //Kolikko katoaa unityn muistista
 			points++;
 
-		} else if (collision.gameObject.name == "Spikes") { //collision.gameObject.name == "spriten nimi"
+		} else if (collision.gameObject.tag == "Hazard") { //collision.gameObject.name == "spriten nimi"
 			health -= 35; //piikkien damage
 			if (health > 0) { //pelaaja ponnahtaa iskusta vain jos isku ei ole tappava
 				gameObject.transform.parent.Translate (0, 300, 0); //pelaaja ponnahtaa ylös 
@@ -45,6 +47,10 @@ public class Player : MonoBehaviour {
 			Debug.Log("health: "+ health);
 			controls.SetJumpCap (false); //piikkien koskeminen lasektaan maassa käymiseksi,
 			grounded = true;			// joten pelaaja voi hyppää uudelleen välttääkseen putoamasta piikkien päälle uudestaan. 
+
+		} else if (collision.gameObject.name == "Goal") { //Jos pelaaja koskettaa maalia
+			goal = true;
+
 
 		} else { //Suosittelen antamaan kaikille tasanne tai maa collideri kuville samat nimet 
 			controls.SetJumpCap (false); //Kun pelaaja osuu Collideriin, mikä ei ole kolikko, jumpCap = false -> pelaaja voi hypätä uudelleen
@@ -77,6 +83,10 @@ public class Player : MonoBehaviour {
 		facing = b;
 	}
 
-	public void SetAlive(bool b) {
+	public bool GetGoal() {
+		return goal;
+	}
+
+	void SetAlive(bool b) {
 	}
 }
