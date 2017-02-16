@@ -8,10 +8,10 @@ public class Player : MonoBehaviour {
 	GameControl controls;
 	GameObject coin; //Siirretään mahdollisesti GameItems (tai vast.) luokkaan
 	bool grounded; //koskettaako pelaajan jalat maata, true = koskettaa
-	bool freeze; //ei käytössä vielä 
+	bool freeze; //onko pelaaja jäädytetty (kuollut, peli pausettu, gameover jnejne)
 	bool facing; //kummalle puolelle pelaaja katsoo, true = oikealle
 	int health; //pelaajan hp 
-	bool goal;
+	bool goal; //onko pelaaja käynyt maalissa
 
 
 	// Use this for initialization
@@ -50,6 +50,7 @@ public class Player : MonoBehaviour {
 
 		} else if (collision.gameObject.name == "Goal") { //Jos pelaaja koskettaa maalia
 			goal = true;
+			freeze = true;
 
 
 		} else { //Suosittelen antamaan kaikille tasanne tai maa collideri kuville samat nimet 
@@ -88,5 +89,12 @@ public class Player : MonoBehaviour {
 	}
 
 	void SetAlive(bool b) {
+	}
+
+	public bool GetFreeze() { 
+		return freeze;
+	}
+	public void SetFreeze(bool b) { 
+		freeze = b;
 	}
 }

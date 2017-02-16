@@ -16,7 +16,7 @@ public class GameControl : MonoBehaviour {
 	Player patientPlayer;
 	Player currentPlayer;
 	Player thiefPlayer;
-	int jumpHeight; //Kaikki tälläset pelaajalle omaiset "statsit" sirretään todennäköisesti Player luokkaan myöhemmin
+	int jumpHeight; //Kaikki tälläset pelaajalle omaiset "statsit" sirretään todennäköisesti Player luokkaan myöhemmin 
 	int jumpProgress;
 	bool jumpCap;
 	Camera thiefCamera;
@@ -30,7 +30,7 @@ public class GameControl : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
+	void Start () { 
 		gameOver = GameObject.Find ("GameOverCanvas").GetComponent<Canvas> ();
 		pauseCanvas = GameObject.Find ("PauseCanvas").GetComponent<Canvas> ();
 		points = GameObject.Find ("PointsText").GetComponent<Text> ();
@@ -48,6 +48,7 @@ public class GameControl : MonoBehaviour {
 		jumpCap = false;
 		pauseCanvas.enabled = false;
 		jumpHeight = 30; //Hypyn max korkeus
+
 //		rightButton = GameObject.Find ("RightButton").GetComponent<ButtonController>(); 
 //		leftButton = GameObject.Find ("LeftButton").GetComponent<ButtonController>(); Mahdollisia virtuaali nappeja varten
 
@@ -61,7 +62,7 @@ public class GameControl : MonoBehaviour {
 		//Input.GetKey (KeyCode.nappi) niin kauan kun nappia painetaan niin suoritetaan komentoa
 		//Input.GetKeyDown (KeyCode.nappi) kun nappia painetaan kerran niin suoritetaan komento
 
-		if (gameOver.enabled == false && pauseCanvas.enabled == false) { //Jos pelaaja ei ole game over tai pause screenissä niin voi liikkua
+		if (currentPlayer.GetFreeze() == false) { //Jos pelaaja ei ole game over tai pause screenissä niin voi liikkua
 
 			if (Input.GetKeyUp (KeyCode.W)) { //Jos W nostetaan pohjasta, jumpCap = true -> Pelaaja ei voi leijua spämmäämällä W:tä
 				jumpCap = true;
@@ -99,25 +100,28 @@ public class GameControl : MonoBehaviour {
 					Flip ();
 				}
 
-			} else if (Input.GetKeyDown (KeyCode.Tab)) {//Tab vaihtaa hahmoa 
-				SwitchPlayers ();
-
 			} else if (Input.GetKeyDown (KeyCode.Mouse0)) { //kun M1 painetaan niin miekka collideri aktivoituu 
 				sword.enabled = true; 
 
 			} else if (Input.GetKeyUp (KeyCode.Mouse0)) { //kun M1 nostetaan pohjasta miekka collideri deaktivoituu
 				sword.enabled = false;
+
+			} else if (Input.GetKeyUp (KeyCode.O)) { //Testi nappula
+				levels.LoadNextLevel();
 			}
 		}
-		if (Input.GetKeyDown (KeyCode.Escape)  && gameOver.enabled == false) { //Esc Pausee pelin 
-				Pause ();
+		if (Input.GetKeyDown (KeyCode.Escape) && gameOver.enabled == false) { //Esc Pausee pelin 
+			Pause ();
+
+		} else if (Input.GetKeyDown (KeyCode.Tab)) {//Tab vaihtaa hahmoa 
+			SwitchPlayers ();
 		}
 
 		if (currentPlayer.GetHealth () <= 0) {
 			GameOver ();
 
 		} else if (thiefPlayer.GetGoal() == true && patientPlayer.GetGoal() == true) {
-			levels.ChangeLevel ();
+			levels.LoadNextLevel ();
 		}
 		points.text = "Points: " + (thiefPlayer.GetPoints() + patientPlayer.GetPoints()); //Pitää näytöllä lukua kerätyistä kolikoista
 			}
@@ -135,6 +139,8 @@ public class GameControl : MonoBehaviour {
 	void GameOver() {
 		Time.timeScale = 0; //pysäyttää ajan 
 		gameOver.enabled = true; //Game over kanvas tulee esiin
+		thiefPlayer.SetFreeze(true);
+		patientPlayer.SetFreeze (true);
 
 	}
 
@@ -142,10 +148,14 @@ public class GameControl : MonoBehaviour {
 		if (pauseCanvas.enabled == true) {
 			Time.timeScale = 1; //Palauttaa peliajan normaaliksi
 			pauseCanvas.enabled = false; //Pause kanvas menee pois 
+			thiefPlayer.SetFreeze(false);
+			patientPlayer.SetFreeze (false);
 
 		} else if (pauseCanvas.enabled == false) {
 			Time.timeScale = 0; //Pysäyttää peliajan
 			pauseCanvas.enabled = true; //Pause kanvas tulee esiin
+			thiefPlayer.SetFreeze(true);
+			patientPlayer.SetFreeze (true);
 		}	
 	}
 
@@ -190,8 +200,5 @@ public class GameControl : MonoBehaviour {
 		currentPlayerObject = patientPlayerObject;
 		currentCamera = patientCamera;
 		}
-	}
-
-	void ChangeLevel() {
 	}
 }
