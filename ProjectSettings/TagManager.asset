@@ -9,6 +9,7 @@ TagManager:
   - NPC
   - Hazard
   - GroundAndPlatform
+  - Enemy
   layers:
   - Default
   - TransparentFX

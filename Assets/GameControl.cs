@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -49,12 +50,12 @@ public class GameControl : MonoBehaviour {
 		pauseCanvas.enabled = false;
 		jumpHeight = 30; //Hypyn max korkeus
 
-//		rightButton = GameObject.Find ("RightButton").GetComponent<ButtonController>(); 
-//		leftButton = GameObject.Find ("LeftButton").GetComponent<ButtonController>(); Mahdollisia virtuaali nappeja varten
+		//		rightButton = GameObject.Find ("RightButton").GetComponent<ButtonController>(); 
+		//		leftButton = GameObject.Find ("LeftButton").GetComponent<ButtonController>(); Mahdollisia virtuaali nappeja varten
 
-		
+
 	}
-		
+
 	// Update is called once per frame
 
 	void Update (){
@@ -124,8 +125,8 @@ public class GameControl : MonoBehaviour {
 			levels.LoadNextLevel ();
 		}
 		points.text = "Points: " + (thiefPlayer.GetPoints() + patientPlayer.GetPoints()); //Pitää näytöllä lukua kerätyistä kolikoista
-			}
-		
+	}
+
 
 
 	public void SetJumpCap(bool b) { 
@@ -172,12 +173,6 @@ public class GameControl : MonoBehaviour {
 	}
 
 	void Flip() {
-
-		if (currentPlayerObject == patientPlayerObject) { 
-			patientPlayerObject.transform.Translate (-150, 0, 0); //Tasaa flipin yhteydessä tapahtuvaa "nykäisyiä". Modeli kohtainen arvo.
-		} else if (currentPlayerObject == thiefPlayerObject) {
-			thiefPlayerObject.transform.Translate (-400, 0, 0);  //Tasaa flipin yhteydessä tapahtuvaa "nykäisyiä". Modeli kohtainen arvo.
-		}
 		currentPlayerObject.transform.Rotate (0, 180, 0); //PlayerObject kääntyy 180 astetta Y-akselilla eli peilaantuu.
 		currentCamera.transform.Rotate(0, -180, 0); //koska PlayeObject ja kaikki sille alistetut komponentit peilaantuu myös, pitää kamera asetta normaaliksi kääntämäälä se toiset 180 astetta.
 		currentCamera.transform.Translate (0, 0, -20); //Kun kamera pelitetään toista kertaa, pelimaailma jää sen "taakse". siksi sitä pitää tuoda takaisinpäin Z-akselilla.    
@@ -185,20 +180,20 @@ public class GameControl : MonoBehaviour {
 	}
 
 	void SwitchPlayers() {
-		
+
 		if (currentPlayer == patientPlayer) { //Jos nykyinen (current) pelihahmo on jo patient niin kaikki current referenssit vaihtuu thieffin referensseihin
-		thiefCamera.enabled = true; //Thieffin kamera käynnistyy
-		patientCamera.enabled = false; //patientin kamera sammuu
-		currentPlayer = thiefPlayer;
-		currentPlayerObject = thiefPlayerObject;
-		currentCamera = thiefCamera;
+			thiefCamera.enabled = true; //Thieffin kamera käynnistyy
+			patientCamera.enabled = false; //patientin kamera sammuu
+			currentPlayer = thiefPlayer;
+			currentPlayerObject = thiefPlayerObject;
+			currentCamera = thiefCamera;
 
 		} else if (currentPlayer == thiefPlayer){ //Jos nykyinen (current) pelihahmo on jo thief niin kaikki current referenssit vaihtuu pateintin referensseihin
-		patientCamera.enabled = true; //patientin kamera käynnistyy
-		thiefCamera.enabled = false; //theiffin kamera sammuu
-		currentPlayer = patientPlayer;
-		currentPlayerObject = patientPlayerObject;
-		currentCamera = patientCamera;
+			patientCamera.enabled = true; //patientin kamera käynnistyy
+			thiefCamera.enabled = false; //theiffin kamera sammuu
+			currentPlayer = patientPlayer;
+			currentPlayerObject = patientPlayerObject;
+			currentCamera = patientCamera;
 		}
 	}
 }

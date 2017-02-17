@@ -97,4 +97,8 @@ public class Player : MonoBehaviour {
 	public void SetFreeze(bool b) { 
 		freeze = b;
 	}
+
+	public void TakeDamage(int i) {
+		health -= i;
+	}
 }
