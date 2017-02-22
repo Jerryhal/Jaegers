@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour {
 
-	int damage; //miekan damage
+	public int damage; //miekan damage
 
 	// Use this for initialization
 	void Start () {
-		damage = 10; 
 	}
 	
 	// Update is called once per frame
@@ -17,16 +16,13 @@ public class Weapon : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) { //Kun pelaaja osuu collideriin tapahtuu seuraava: 
-		//collision muuttuja on collideri mihin pelaaja koskee 
-		Debug.Log (collision); 
-
-
+		//collision muuttuja on collideri mihin pelaaja koskee  
 
 
 		if (gameObject.tag == "Player") { //Jos pelaajan ase osuu x niin tapahtuu y 
 			if (collision.gameObject.tag == "Enemy") {
-//				NPC npc = collision.gameObject.GetComponent<NPC> ();
-//				npc.TakeDamage (damage);	
+				Enemy enemy = collision.gameObject.GetComponent<Enemy> ();
+				enemy.TakeDamage (damage);	
 				Debug.Log ("osuit enemyyn");
 
 			} else if (collision.gameObject.tag == "NPC") { 
@@ -36,9 +32,8 @@ public class Weapon : MonoBehaviour {
 
 		} else if (gameObject.tag == "Enemy") { //Jos vihollisen ase osuu x niin tapahtuu y 
 			if (collision.gameObject.tag == "Player") {
-//				Player player = collision.gameObject.GetComponent<Player> ();
-//				player.TakeDamage (damage);	
-				Debug.Log ("sinuun osuttiin");
+				Player player = collision.gameObject.GetComponentInChildren<Player> ();
+				player.TakeDamage (damage);	
 			}
 		}
 	}

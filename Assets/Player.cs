@@ -100,5 +100,9 @@ public class Player : MonoBehaviour {
 
 	public void TakeDamage(int i) {
 		health -= i;
+		Debug.Log ("health: " + health);
+		if (health > 0) { //pelaaja ponnahtaa iskusta vain jos isku ei ole tappava
+			gameObject.transform.parent.Translate (0, 300, 0); //pelaaja ponnahtaa ylös 
+		}
 	}
 }
