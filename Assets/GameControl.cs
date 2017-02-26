@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -107,8 +106,7 @@ public class GameControl : MonoBehaviour {
 			} else if (Input.GetKeyUp (KeyCode.Mouse0)) { //kun M1 nostetaan pohjasta miekka collideri deaktivoituu
 				sword.enabled = false;
 
-			} else if (Input.GetKeyUp (KeyCode.O)) { //Testi nappula
-				levels.LoadNextLevel();
+//			} else if (Input.GetKeyUp (KeyCode.O)) { //Testi nappula
 			}
 		}
 		if (Input.GetKeyDown (KeyCode.Escape) && gameOver.enabled == false) { //Esc Pausee pelin 

@@ -5,12 +5,14 @@ using UnityEngine;
 public class NPC : MonoBehaviour {
 
 	public int health;
+	public string behaviourModel;
 	protected bool freeze;
 	protected bool facing;
 	protected bool grounded;
 	protected bool playerFacing; 
 	protected bool move;
 	protected GameControl controls;
+
 
 	// Use this for initialization
 	void Start () {
