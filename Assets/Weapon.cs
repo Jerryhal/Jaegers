@@ -6,17 +6,15 @@ public class Weapon : MonoBehaviour {
 
 	public int damage; //miekan damage
 	int time;
-	bool weaponHit;
-	public bool thrown;
+	bool weaponHit = false;
+	bool thrown = false;
 	Vector3 weaponPosition;
 	Quaternion weaponRotation;
 
 	// Use this for initialization
 	void Start () {
-		weaponHit = false;
 		weaponPosition = gameObject.transform.position;
 		weaponRotation = gameObject.transform.rotation;
-		thrown = false;
 	}
 
 	// Update is called once per frame
@@ -25,16 +23,16 @@ public class Weapon : MonoBehaviour {
 		if (thrown == true) {
 			RotatingWeaponThrow ();
 		}
-//		RotatingWeaponThrow ();
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) { //Kun pelaaja osuu collideriin tapahtuu seuraava: 
 		//collision muuttuja on collideri mihin pelaaja koskee  
 
 
-		if (transform.parent.tag == "Player") { //Jos pelaajan ase osuu x niin tapahtuu y 
-			if (collision.gameObject.tag == "Enemy") {
-				weaponHit = true;
+		if (gameObject.transform.parent.tag == "Player") { //Jos pelaajan ase osuu x niin tapahtuu y 
+			if (collision.gameObject.tag == "Enemy") { //x
+				Debug.Log(collision.gameObject.name);
+				weaponHit = true; //tapahtuu y:
 				Enemy enemy = collision.gameObject.GetComponent<Enemy> ();
 				enemy.TakeDamage (damage);	
 			}
@@ -44,18 +42,16 @@ public class Weapon : MonoBehaviour {
 			NPC npc = collision.gameObject.GetComponent<NPC> (); //käytetään referenssinä NPCtä johon miekka osui
 			npc.TakeDamage (damage); //NPC johon miekka osui ottaa damagea sen verran mitä miekka tekee 
 
-		} else if (transform.parent.tag == "Enemy") { //Jos vihollisen ase osuu x niin tapahtuu y 
-			if (collision.gameObject.tag == "Player") {
-				weaponHit = true;
-				Player player = collision.gameObject.GetComponentInChildren<Player> ();
+		} else if (gameObject.transform.parent.tag == "Enemy") { //Jos vihollisen ase osuu x niin tapahtuu y 
+			if (collision.gameObject.tag == "Player") { //x
+				weaponHit = true; //tapahtuu y:
+				Player player = collision.gameObject.GetComponent<Player> ();
 				player.TakeDamage (damage);	
-
 				}
 			}
 		}
 
 	public void RotatingWeaponThrow() {
-		Debug.Log(gameObject.name + " Rotating weapon thrown");
 		SpriteRenderer weaponSprite = gameObject.GetComponentInChildren<SpriteRenderer> ();
 		Collider2D weaponCollider = gameObject.GetComponent<Collider2D> ();
 		weaponCollider.enabled = true;
@@ -64,10 +60,6 @@ public class Weapon : MonoBehaviour {
 		gameObject.transform.Translate (2, 0, 0);
 		if (weaponHit == true) {
 			GameObject.Destroy (gameObject);
-//		}else if(time == 500) {
-//			Weapon newWeapon = Instantiate (gameObject, GetWeaponPosition (), GetWeaponRotation (), gameObject.transform.parent).GetComponent<Weapon> ();
-//			newWeapon.ThrowWeapon ();
-//			time = 0;
 		}
 	}
 
@@ -96,6 +88,5 @@ public class Weapon : MonoBehaviour {
 
 	public void ThrowWeapon() {
 		thrown = true;	
-		Debug.Log(gameObject.name + " Axe thrown");
 	}
 }

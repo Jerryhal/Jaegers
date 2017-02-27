@@ -3,23 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : NPC {
-	int steps;
-	Weapon weapon;
 	int time;
-	bool asd;
+	int time2;
 
 
 	// Use this for initialization
 	void Start () {
 		controls = GameObject.Find ("GameControl").GetComponent<GameControl>();
-		move = true;
-		weapon = GameObject.Find ("Axe").GetComponent<Weapon> ();
-		GameObject newWeapon = Instantiate (weapon.gameObject, weapon.GetWeaponPosition (), weapon.GetWeaponRotation (), weapon.gameObject.transform.parent);
 
-		Weapon weaponw = newWeapon.GetComponent<Weapon> ();
-		weaponw.ThrowWeapon ();
-		weapon.ThrowWeapon();
-	
+		if (behaviourModel.Equals ("AxeMan")) {
+			ThrowAxe ();
+		}
 	}
 	
 	// Update is called once per frame
@@ -34,29 +28,55 @@ public class Enemy : NPC {
 			PaceAround ();
 
 		} else if (behaviourModel.Equals ("AxeMan")) {
-
+			time++;
+			if (time == 1000) {
+				ThrowAxe ();
+				time = 0;
+			}
+		} else if (behaviourModel.Equals ("Eagle")) {
+			FlyAround ();
 		}
 	}
 
 	void PaceAround() {
 		gameObject.transform.Translate (2, 0, 0); //kävely nopeus 
-		steps++;
-		if (steps == 300) { //kuinka kauan npc liikkuu suuntaan ennen kääntymistä
+		time++;
+		if (time == 300) { //kuinka kauan npc liikkuu suuntaan ennen kääntymistä
 			Flip ();
-			steps = 0;
+			time = 0;
+		}
+	}
+
+	void FlyAround() {
+		time++;
+		time2++;
+		if (time2 == 900) {
+			Flip ();
+			time = 0;
+			time2 = 0;
+		} else if (time < 300) {
+			gameObject.transform.Translate (3, -1, 0);
+		} else if (time > 300) {
+			gameObject.transform.Translate (3, 1, 0);
+			if (time == 600) {
+				time = 0;
+			}
 		}
 	}
 
 //	void ThrowAxes() {
-//		weapon.ThrowWeapon ();
-//		if (time == 500) {
+//		Weapon weapon = GameObject.Find ("Axe").GetComponent<Weapon> ();
+//		time++;
+//		if (time == 1000) {
 //			Weapon newWeapon = Instantiate (weapon.gameObject, weapon.GetWeaponPosition (), weapon.GetWeaponRotation (), weapon.gameObject.transform.parent).GetComponent<Weapon> ();
 //			newWeapon.ThrowWeapon ();
 //			time = 0;
 //		}
 //	}
-//	void NewWeaponThrow() {
-//		Weapon newWeapon = Instantiate (weapon.gameObject, weapon.GetWeaponPosition (), weapon.GetWeaponRotation (), weapon.gameObject.transform.parent).GetComponent<Weapon> ();
-//		newWeapon.ThrowWeapon ();	
-//	}
+
+	void ThrowAxe() {
+		Weapon weapon = GameObject.Find ("Axe").GetComponent<Weapon> ();
+		Weapon newWeapon = Instantiate (weapon.gameObject, weapon.GetWeaponPosition (), weapon.GetWeaponRotation (), weapon.gameObject.transform.parent).GetComponent<Weapon> ();
+		newWeapon.ThrowWeapon ();
+	}
 }

@@ -36,8 +36,8 @@ public class GameControl : MonoBehaviour {
 		points = GameObject.Find ("PointsText").GetComponent<Text> ();
 		patientPlayerObject = GameObject.Find ("Patient"); 
 		thiefPlayerObject = GameObject.Find ("Thief"); 
-		patientPlayer = GameObject.Find("PatientPlayer").GetComponent<Player>();
-		thiefPlayer = GameObject.Find("ThiefPlayer").GetComponent<Player>();
+		patientPlayer = GameObject.Find("Patient").GetComponent<Player>();
+		thiefPlayer = GameObject.Find("Thief").GetComponent<Player>();
 		thiefCamera = GameObject.Find("ThiefCamera").GetComponent<Camera>();
 		patientCamera = GameObject.Find("PatientCamera").GetComponent<Camera>();
 		sword = GameObject.Find ("Sword").GetComponent<Collider2D>();

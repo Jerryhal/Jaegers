@@ -39,8 +39,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4006440678688308}
   - component: {fileID: 212373547754743572}
-  - component: {fileID: 61947168763623340}
-  - component: {fileID: 114776740538782912}
   m_Layer: 0
   m_Name: ThiefPlayer
   m_TagString: Untagged
@@ -57,6 +55,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4816378231559488}
   - component: {fileID: 50447589850545996}
+  - component: {fileID: 61697679239838174}
+  - component: {fileID: 114303560548500654}
   m_Layer: 0
   m_Name: Thief
   m_TagString: Player
@@ -97,7 +97,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1550336582231382}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1000, y: 1000, z: 0}
+  m_LocalPosition: {x: -290, y: -323, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4006440678688308}
@@ -125,7 +125,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 400
+  orthographic size: 500
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -159,20 +159,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!61 &61947168763623340
+--- !u!61 &61697679239838174
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1250964521855456}
+  m_GameObject: {fileID: 1550336582231382}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: 0.018536404, y: -0.0740154}
+  m_Offset: {x: 1.0974731, y: -5.1881866}
   serializedVersion: 2
-  m_Size: {x: 1.6685848, y: 3.8519688}
+  m_Size: {x: 86.82251, y: 201.73831}
 --- !u!81 &81344193260286916
 AudioListener:
   m_ObjectHideFlags: 1
@@ -187,12 +187,12 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1106936889238488}
   m_Enabled: 1
---- !u!114 &114776740538782912
+--- !u!114 &114303560548500654
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1250964521855456}
+  m_GameObject: {fileID: 1550336582231382}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da3a5c18272953e4b835c161114ecbcc, type: 3}

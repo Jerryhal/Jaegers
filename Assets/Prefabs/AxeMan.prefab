@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 212553483456141582}
   m_Layer: 0
   m_Name: PatientAxeMan
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71,6 +71,7 @@ GameObject:
   - component: {fileID: 4494925415534608}
   - component: {fileID: 114847585081720454}
   - component: {fileID: 61937823532952074}
+  - component: {fileID: 50717225182493756}
   m_Layer: 0
   m_Name: Axe
   m_TagString: Untagged
@@ -125,7 +126,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1390791433676054}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -781, y: -1343, z: 0}
+  m_LocalPosition: {x: -835, y: -1380, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4139015011048784}
@@ -153,6 +154,26 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!50 &50717225182493756
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1752531170024162}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &61937823532952074
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -206,7 +227,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  thrown: 0
 --- !u!212 &212553483456141582
 SpriteRenderer:
   m_ObjectHideFlags: 1
