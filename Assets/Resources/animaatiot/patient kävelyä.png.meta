@@ -1,0 +1,140 @@
+fileFormatVersion: 2
+guid: 22f64caa45b94674a8b4c52a8e5abccf
+timeCreated: 1489035421
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: "patient k\xE4vely\xE4_0"
+    21300002: "patient k\xE4vely\xE4_1"
+    21300004: "patient k\xE4vely\xE4_2"
+    21300006: "patient k\xE4vely\xE4_3"
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 2
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: "patient k\xE4vely\xE4_0"
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 1448
+        width: 474
+        height: 494
+      alignment: 9
+      pivot: {x: 0.31320035, y: 0.52987236}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "patient k\xE4vely\xE4_1"
+      rect:
+        serializedVersion: 2
+        x: 1718
+        y: 1448
+        width: 474
+        height: 494
+      alignment: 9
+      pivot: {x: 0.31320047, y: 0.53734064}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "patient k\xE4vely\xE4_2"
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 168
+        width: 474
+        height: 494
+      alignment: 9
+      pivot: {x: 0.31320035, y: 0.53734064}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "patient k\xE4vely\xE4_3"
+      rect:
+        serializedVersion: 2
+        x: 1718
+        y: 168
+        width: 474
+        height: 494
+      alignment: 9
+      pivot: {x: 0.3092157, y: 0.5389004}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

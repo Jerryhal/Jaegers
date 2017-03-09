@@ -1772,6 +1772,58 @@ Prefab:
       propertyPath: m_AngularDrag
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 212410522946623842, guid: 946b707b9f4dfbf4a963ec3368738586,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7ce48d6d440e9cc40898487ffeb0076e,
+        type: 3}
+    - target: {fileID: 4748685287637032, guid: 946b707b9f4dfbf4a963ec3368738586, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748685287637032, guid: 946b707b9f4dfbf4a963ec3368738586, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748685287637032, guid: 946b707b9f4dfbf4a963ec3368738586, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4748685287637032, guid: 946b707b9f4dfbf4a963ec3368738586, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 212410522946623842, guid: 946b707b9f4dfbf4a963ec3368738586,
+        type: 2}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61895047265440832, guid: 946b707b9f4dfbf4a963ec3368738586,
+        type: 2}
+      propertyPath: m_Offset.x
+      value: 114.778564
+      objectReference: {fileID: 0}
+    - target: {fileID: 61895047265440832, guid: 946b707b9f4dfbf4a963ec3368738586,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 119.19736
+      objectReference: {fileID: 0}
+    - target: {fileID: 61895047265440832, guid: 946b707b9f4dfbf4a963ec3368738586,
+        type: 2}
+      propertyPath: m_Offset.y
+      value: 22.701508
+      objectReference: {fileID: 0}
+    - target: {fileID: 61895047265440832, guid: 946b707b9f4dfbf4a963ec3368738586,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 161.97919
+      objectReference: {fileID: 0}
+    - target: {fileID: 212410522946623842, guid: 946b707b9f4dfbf4a963ec3368738586,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 61870628271870510, guid: 946b707b9f4dfbf4a963ec3368738586, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 946b707b9f4dfbf4a963ec3368738586, type: 2}
@@ -3775,6 +3827,23 @@ GameObject:
   m_PrefabParentObject: {fileID: 1632157290104280, guid: 946b707b9f4dfbf4a963ec3368738586,
     type: 2}
   m_PrefabInternal: {fileID: 712809542}
+--- !u!95 &1545780391
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1545780388}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b9cea4b05dc3fba40ad7d32999e96e6b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!4 &1545780392 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4922677772266022, guid: 946b707b9f4dfbf4a963ec3368738586,
@@ -3808,9 +3877,44 @@ CapsuleCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: 1.796875, y: -23.363281}
-  m_Size: {x: 114.25281, y: 166.26974}
+  m_Offset: {x: -9.311523, y: -6.266388}
+  m_Size: {x: 174.08344, y: 265.43195}
   m_Direction: 0
+--- !u!212 &1545780395
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1545780388}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
 --- !u!1 &1546925698
 GameObject:
   m_ObjectHideFlags: 0

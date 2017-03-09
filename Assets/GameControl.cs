@@ -28,6 +28,7 @@ public class GameControl : MonoBehaviour {
 	Canvas thiefUI;
 	Canvas patientUI;
 	Rigidbody2D playerRigidBody;
+	Animator animator;
 
 	// Use this for initialization
 	void Start () { 
@@ -52,6 +53,7 @@ public class GameControl : MonoBehaviour {
 		currentCamera = patientCamera;
 		pauseCanvas.enabled = false;
 		playerRigidBody = currentPlayer.GetComponent<Rigidbody2D> ();
+		animator = patientPlayerObject.GetComponent<Animator> ();
 
 //		rightButton = GameObject.Find ("RightButton").GetComponent<ButtonController>(); 
 //		leftButton = GameObject.Find ("LeftButton").GetComponent<ButtonController>(); Mahdollisia virtuaali nappeja varten
@@ -63,7 +65,12 @@ public class GameControl : MonoBehaviour {
 
 	void Update (){
 
+
+
 		if (currentPlayer.GetFreeze() == false) { //Jos pelaaja ei ole game over tai pause screenissä niin voi liikkua
+
+			if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+				animator.SetBool("moving", false);
 
 			if (Input.GetKeyDown (KeyCode.W)) { //Hyppää, mikäli pelaaja on maassa
 				if (currentPlayer.GetGrounded () == true && currentPlayer.JumpCap () == false) { 
@@ -75,6 +82,7 @@ public class GameControl : MonoBehaviour {
 
 			} else if (Input.GetKey (KeyCode.A)) { //Liiku vasemmalle
 				if (currentPlayer.Facing () == false) {
+					animator.SetBool("moving", true);
 //					currentPlayer.transform.Translate (10, 0, 0); //Hypyn "räjähtävyys"
 					playerRigidBody.AddForce(new Vector3(-200, 0, 0) * currentPlayer.Speed(), ForceMode2D.Impulse);
 						
@@ -86,6 +94,7 @@ public class GameControl : MonoBehaviour {
 
 			} else if (Input.GetKey (KeyCode.D)) { //liiku oikealle
 				if (currentPlayer.Facing () == true) {
+					animator.SetBool("moving", true);
 //					currentPlayer.transform.Translate (10, 0, 0); 
 					playerRigidBody.AddForce(new Vector3(200, 0, 0) * currentPlayer.Speed(), ForceMode2D.Impulse);
 //					playerRigidBody.MovePosition (playerRigidBody.transform.position + new Vector3(1000, 0, 0) * Time.deltaTime);
