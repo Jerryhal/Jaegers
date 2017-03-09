@@ -5,34 +5,39 @@ using UnityEngine.UI;
 
 public class GameControl : MonoBehaviour {
 
+	public bool globalFreeze = false;
 	GameObject patientPlayerObject; 
 	GameObject thiefPlayerObject; 
 	GameObject currentPlayerObject;
+	GameObject door;
+	GameObject switcher;
 	LevelManager levels;
 	Collider2D sword;
 	ButtonController rightButton;
 	ButtonController leftButton;
 	Text points;
+	Text GameOverText;
 	Player patientPlayer;
 	Player currentPlayer;
 	Player thiefPlayer;
-	int jumpHeight; //Kaikki tälläset pelaajalle omaiset "statsit" sirretään todennäköisesti Player luokkaan myöhemmin 
-	int jumpProgress;
-	bool jumpCap;
 	Camera thiefCamera;
 	Camera patientCamera; 
 	Camera currentCamera;
 	Canvas gameOver;
 	Canvas pauseCanvas;
-	Text GameOverText;
-
-
-
+	Canvas thiefUI;
+	Canvas patientUI;
+	Rigidbody2D playerRigidBody;
 
 	// Use this for initialization
 	void Start () { 
+
+		switcher = GameObject.Find ("Switch");
+		door = GameObject.Find ("Door");
 		gameOver = GameObject.Find ("GameOverCanvas").GetComponent<Canvas> ();
 		pauseCanvas = GameObject.Find ("PauseCanvas").GetComponent<Canvas> ();
+		patientUI = GameObject.Find ("PatientUI").GetComponent<Canvas> ();
+		thiefUI = GameObject.Find ("ThiefUI").GetComponent<Canvas> ();
 		points = GameObject.Find ("PointsText").GetComponent<Text> ();
 		patientPlayerObject = GameObject.Find ("Patient"); 
 		thiefPlayerObject = GameObject.Find ("Thief"); 
@@ -45,12 +50,11 @@ public class GameControl : MonoBehaviour {
 		currentPlayer = patientPlayer;
 		currentPlayerObject = patientPlayerObject;
 		currentCamera = patientCamera;
-		jumpCap = false;
 		pauseCanvas.enabled = false;
-		jumpHeight = 30; //Hypyn max korkeus
+		playerRigidBody = currentPlayer.GetComponent<Rigidbody2D> ();
 
-		//		rightButton = GameObject.Find ("RightButton").GetComponent<ButtonController>(); 
-		//		leftButton = GameObject.Find ("LeftButton").GetComponent<ButtonController>(); Mahdollisia virtuaali nappeja varten
+//		rightButton = GameObject.Find ("RightButton").GetComponent<ButtonController>(); 
+//		leftButton = GameObject.Find ("LeftButton").GetComponent<ButtonController>(); Mahdollisia virtuaali nappeja varten
 
 
 	}
@@ -59,54 +63,59 @@ public class GameControl : MonoBehaviour {
 
 	void Update (){
 
-		//Input.GetKey (KeyCode.nappi) niin kauan kun nappia painetaan niin suoritetaan komentoa
-		//Input.GetKeyDown (KeyCode.nappi) kun nappia painetaan kerran niin suoritetaan komento
-
 		if (currentPlayer.GetFreeze() == false) { //Jos pelaaja ei ole game over tai pause screenissä niin voi liikkua
 
-			if (Input.GetKeyUp (KeyCode.W)) { //Jos W nostetaan pohjasta, jumpCap = true -> Pelaaja ei voi leijua spämmäämällä W:tä
-				jumpCap = true;
-
-			} else if (Input.GetKey (KeyCode.W) && Input.GetKey (KeyCode.A) && jumpCap == false) { //Viisto hyppy vasemmalle
-				if (currentPlayer.Facing () == false) {
-					currentPlayerObject.transform.Translate (30, 0, 0);
-				} else {
-					Flip ();
+			if (Input.GetKeyDown (KeyCode.W)) { //Hyppää, mikäli pelaaja on maassa
+				if (currentPlayer.GetGrounded () == true && currentPlayer.JumpCap () == false) { 
+					currentPlayer.Jump ();
 				}
-				Jump ();
 
-			} else if (Input.GetKey (KeyCode.W) && Input.GetKey (KeyCode.D) && jumpCap == false) { //Viisto hyppy oikealle
-				if (currentPlayer.Facing () == true) {
-					currentPlayerObject.transform.Translate (30, 0, 0);
-				} else {
-					Flip ();
-				}
-				Jump ();
-
-			} else if (Input.GetKey (KeyCode.W) && jumpCap == false) { //kun W painetaan pohjassa ja jumpCap == false pelaaja hyppää 
-				Jump ();
-
-			} else if (Input.GetKey (KeyCode.D)) { //liiku oikealle
-				if (currentPlayer.Facing () == true) {
-					currentPlayerObject.transform.Translate (10, 0, 0);
-				} else {
-					Flip ();
-				}
+//			} else if (Input.GetKeyUp (KeyCode.A) || Input.GetKeyUp (KeyCode.A)) {
+//				playerRigidBody.velocity = new Vector3(0, 0, 0);
 
 			} else if (Input.GetKey (KeyCode.A)) { //Liiku vasemmalle
 				if (currentPlayer.Facing () == false) {
-					currentPlayerObject.transform.Translate (10, 0, 0);
+//					currentPlayer.transform.Translate (10, 0, 0); //Hypyn "räjähtävyys"
+					playerRigidBody.AddForce(new Vector3(-200, 0, 0) * currentPlayer.Speed(), ForceMode2D.Impulse);
+						
+//					playerRigidBody.MovePosition (playerRigidBody.transform.position + new Vector3(-1000, 0, 0) * Time.deltaTime);
+
 				} else {
 					Flip ();
 				}
 
-			} else if (Input.GetKeyDown (KeyCode.Mouse0)) { //kun M1 painetaan niin miekka collideri aktivoituu 
-				sword.enabled = true; 
+			} else if (Input.GetKey (KeyCode.D)) { //liiku oikealle
+				if (currentPlayer.Facing () == true) {
+//					currentPlayer.transform.Translate (10, 0, 0); 
+					playerRigidBody.AddForce(new Vector3(200, 0, 0) * currentPlayer.Speed(), ForceMode2D.Impulse);
+//					playerRigidBody.MovePosition (playerRigidBody.transform.position + new Vector3(1000, 0, 0) * Time.deltaTime);
+//					playerRigidBody.AddRelativeForce (Vector2.right * 1000, ForceMode2D.Impulse);
+
+				} else {
+					Flip ();
+				}
+			}
+
+			if (Input.GetKeyDown (KeyCode.Mouse0)) { //kun M1 painetaan niin miekka collideri aktivoituu 
+				if (currentPlayer == patientPlayer) {
+					Debug.Log ("Sword " + sword.enabled);
+					sword.enabled = true;
+				} else if (currentPlayer == thiefPlayer) {
+					currentPlayer.transform.Translate (1000, 0, 0); 
+
+				} 
+
+				} else if (Input.GetKeyDown (KeyCode.E) && currentPlayer.GetSwitch () == true) {
+				PressSwitch ();
+				OpenDoor ();
 
 			} else if (Input.GetKeyUp (KeyCode.Mouse0)) { //kun M1 nostetaan pohjasta miekka collideri deaktivoituu
-				sword.enabled = false;
+				if (currentPlayer == patientPlayer) {
+					Debug.Log ("Sword " + sword.enabled);
+					sword.enabled = false;
+				}
 
-//			} else if (Input.GetKeyUp (KeyCode.O)) { //Testi nappula
+				//			} else if (Input.GetKeyUp (KeyCode.O)) { //Testi nappula
 			}
 		}
 		if (Input.GetKeyDown (KeyCode.Escape) && gameOver.enabled == false) { //Esc Pausee pelin 
@@ -125,49 +134,30 @@ public class GameControl : MonoBehaviour {
 		points.text = "Points: " + (thiefPlayer.GetPoints() + patientPlayer.GetPoints()); //Pitää näytöllä lukua kerätyistä kolikoista
 	}
 
-
-
-	public void SetJumpCap(bool b) { 
-		this.jumpCap = b;
-	}
-
-	public Player GetPlayer() {
-		return this.currentPlayer;
-	}
-
 	void GameOver() {
 		Time.timeScale = 0; //pysäyttää ajan 
+		globalFreeze = true;
 		gameOver.enabled = true; //Game over kanvas tulee esiin
-		thiefPlayer.SetFreeze(true);
-		patientPlayer.SetFreeze (true);
+//		thiefPlayer.SetFreeze(true);
+//		patientPlayer.SetFreeze (true);
 
 	}
 
 	void Pause() {
 		if (pauseCanvas.enabled == true) {
 			Time.timeScale = 1; //Palauttaa peliajan normaaliksi
+			globalFreeze = false;
 			pauseCanvas.enabled = false; //Pause kanvas menee pois 
 			thiefPlayer.SetFreeze(false);
 			patientPlayer.SetFreeze (false);
 
 		} else if (pauseCanvas.enabled == false) {
 			Time.timeScale = 0; //Pysäyttää peliajan
+			globalFreeze = true;
 			pauseCanvas.enabled = true; //Pause kanvas tulee esiin
 			thiefPlayer.SetFreeze(true);
 			patientPlayer.SetFreeze (true);
 		}	
-	}
-
-	void Jump() { //Hyppy
-		//Liikutetaan pelaajaa ylöspäin kunnes saavutetaan hypyn lakipiste, jolloin pelaaja lakkaa liikkumasta ylös.
-		currentPlayerObject.transform.Translate (0, 20, 0); //Hypyn "räjähtävyys"
-
-		currentPlayer.SetGrounded (false); //Pelaaja ei ole enää maassa 
-		jumpProgress++;
-		if (jumpProgress == jumpHeight) { //Hypyn lakipiste saavutettu
-			jumpCap = true; //Pelaaja ei voi hypätä uudelleen kunnes jumpCap == false
-			jumpProgress = 0; 
-		}
 	}
 
 	void Flip() {
@@ -177,21 +167,53 @@ public class GameControl : MonoBehaviour {
 		currentPlayer.SetFacing (!currentPlayer.Facing()); //player.Facing saa vastakkaisen arvon. 
 	}
 
-	void SwitchPlayers() {
+	public void SwitchPlayers() {
+		
+			levels.PlayerSwitch ();
 
 		if (currentPlayer == patientPlayer) { //Jos nykyinen (current) pelihahmo on jo patient niin kaikki current referenssit vaihtuu thieffin referensseihin
 			thiefCamera.enabled = true; //Thieffin kamera käynnistyy
 			patientCamera.enabled = false; //patientin kamera sammuu
+			thiefUI.enabled = true;
+			patientUI.enabled = false;
 			currentPlayer = thiefPlayer;
 			currentPlayerObject = thiefPlayerObject;
 			currentCamera = thiefCamera;
+			playerRigidBody = currentPlayer.GetComponent<Rigidbody2D> ();
 
 		} else if (currentPlayer == thiefPlayer){ //Jos nykyinen (current) pelihahmo on jo thief niin kaikki current referenssit vaihtuu pateintin referensseihin
 			patientCamera.enabled = true; //patientin kamera käynnistyy
 			thiefCamera.enabled = false; //theiffin kamera sammuu
+			patientUI.enabled = true;
+			thiefUI.enabled = false;
 			currentPlayer = patientPlayer;
 			currentPlayerObject = patientPlayerObject;
 			currentCamera = patientCamera;
+			playerRigidBody = currentPlayer.GetComponent<Rigidbody2D> ();
+		}
+	}
+
+	public Player GetPlayer() {
+		return this.currentPlayer;
+	}
+
+	public bool GetGlobalFreeze () {
+	return globalFreeze;
+	}
+
+	void OpenDoor() {
+		Collider2D doorCollider = door.GetComponent<Collider2D> ();
+		doorCollider.enabled = !doorCollider.enabled; 
+		SpriteRenderer[] sprites = door.GetComponentsInChildren<SpriteRenderer> ();
+		for (int i = 0; i < sprites.Length; i++) { //Käy läpi jokaisen gameobjectille alistetun gameobjectin spriten
+			sprites [i].enabled = !sprites [i].enabled; 
+		}
+	}
+
+	public void PressSwitch() {
+		SpriteRenderer[] sprites = switcher.GetComponentsInChildren<SpriteRenderer> ();
+		for (int i = 0; i < sprites.Length; i++) { //Käy läpi jokaisen gameobjectille alistetun gameobjectin spriten
+			sprites [i].enabled = !sprites [i].enabled; 
 		}
 	}
 }

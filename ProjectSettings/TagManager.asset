@@ -10,6 +10,7 @@ TagManager:
   - Hazard
   - GroundAndPlatform
   - Enemy
+  - HealthDrop
   layers:
   - Default
   - TransparentFX
